@@ -7,23 +7,49 @@
 
 const PORT = process.env.PORT || 3001;
 let app = require("express")(),
-    server = app.listen(PORT),
-    io = require("socket.io").listen(server),
+    https = require("https"),
     cors = require("cors"),
-    helmet = require("helmet");
+    helmet = require("helmet"),
+    fs = require("fs");
 
-app.use(helmet());
+// Setting up HTTPS options
+const httpsOptions = {
+    key: fs.readFileSync("/etc/letsencrypt/live/serv.prashant.me/privkey.pem"),
+    cert: fs.readFileSync(
+        "/etc/letsencrypt/live/serv.prashant.me/fullchain.pem"
+    )
+};
+
+// Setting up CORS options
+const allowedHosts = [
+    "http://veiled.prashant.me",
+    "https://veiled.prashant.me",
+    "veiled.prashant.me",
+    "localhost"
+];
+
+// Creating a server with both HTTP & HTTPS options.
+const server = https.createServer(httpsOptions, app);
+const io = require("socket.io")(server);
+
 app.use(
     cors({
-        origin: "*"
+        origin: (origin, callback) => {
+            if (allowedHosts.indexOf(origin) !== -1) {
+                callback(null, true);
+            } else {
+                callback(
+                    "Not allowed! Visit https://veiled.prashant.me.",
+                    false
+                );
+            }
+        },
+        optionsSuccessStatus: 200
     })
 );
+app.use(helmet());
 
-// io.on('join', handleJoinEvent);
-// io.on('leave', handleLeaveEvent);
-// io.on('message', handleMessageEvent);
-// io.on('disconnect', handleDisconnectEvent);
-
+// Socket stuff.
 io.of("/veil").on("connection", socket => {
     console.log("New client connected");
     // Client joins the room.
@@ -51,6 +77,7 @@ io.of("/veil").on("connection", socket => {
         }
     });
 
+    // Client leaves the room.
     socket.on("leave", room => {
         socket.leave(room.roomid, () => {
             console.log(`Client left the room ${room.roomid}.`);
@@ -64,4 +91,14 @@ io.of("/veil").on("connection", socket => {
             });
         });
     });
+
+    // Client disconnects.
+    socket.on("disconnect", () => {
+        console.log(`A client disconnected.`);
+        socket.disconnect();
+    });
+});
+
+server.listen(PORT, () => {
+    console.log(`Listening at PORT *:${PORT} with SSL.`);
 });

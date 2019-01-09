@@ -1,33 +1,33 @@
 {
-  "name": "veiled-backend",
-  "version": "1.0.0",
-  "description": "Veiled Backend",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/intern0t/veiled-backend.git"
-  },
-  "keywords": [
-    "veil",
-    "backend",
-    "socket",
-    "chat",
-    "encrypted"
-  ],
-  "author": "Prashant Shrestha",
-  "license": "GPL-3.0",
-  "bugs": {
-    "url": "https://github.com/intern0t/veiled-backend/issues"
-  },
-  "homepage": "https://github.com/intern0t/veiled-backend#readme",
-  "dependencies": {
-    "bluebird": "^3.5.3",
-    "cors": "^2.8.5",
-    "express": "^4.16.4",
-    "helmet": "^3.15.0",
-    "socket.io": "^2.2.0"
-  }
+    "name": "veiled-backend",
+    "version": "1.0.0",
+    "description": "Veiled Backend",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/intern0t/veiled-backend.git"
+    },
+    "keywords": [
+        "veil",
+        "backend",
+        "socket",
+        "chat",
+        "encrypted"
+    ],
+    "author": "Prashant Shrestha",
+    "license": "GPL-3.0",
+    "bugs": {
+        "url": "https://github.com/intern0t/veiled-backend/issues"
+    },
+    "homepage": "https://github.com/intern0t/veiled-backend#readme",
+    "dependencies": {
+        "cors": "^2.8.5",
+        "express": "^4.16.4",
+        "helmet": "^3.15.0",
+        "https": "^1.0.0",
+        "socket.io": "^2.2.0"
+    }
 }
