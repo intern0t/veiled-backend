@@ -65,10 +65,10 @@ io.of("/veil").on("connection", socket => {
 
     // Client sends message.
     socket.on("message", data => {
-        const { roomid, message, sender, date } = data;
+        const { roomid, message, nickname, date } = data;
         let modifiedData = data;
         modifiedData.emitted = true;
-        if (roomid && message && sender && date) {
+        if (roomid && message && nickname && date) {
             io.of("/veil")
                 .in(roomid)
                 .emit("message", modifiedData);
