@@ -66,6 +66,15 @@ io.of("/veil").on("connection", socket => {
                 users: io.of("/veil").clients(room.roomid)
             });
         });
+
+        io.of("/veil")
+            .in(room.roomid)
+            .clients((error, clients) => {
+                if (error) throw error;
+                socket.emit("roomInfo", {
+                    users: clients.length
+                });
+            });
     });
 
     // Client sends message.
