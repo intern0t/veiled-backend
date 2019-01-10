@@ -60,6 +60,11 @@ io.of("/veil").on("connection", socket => {
                 error: false,
                 message: `Successfully joined the room ${room.roomid}!`
             });
+
+            socket.emit("joined", {
+                room: room.roomid,
+                users: io.of("/veil").clients(room.roomid)
+            });
         });
     });
 
